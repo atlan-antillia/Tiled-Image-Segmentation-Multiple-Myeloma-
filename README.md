@@ -4,7 +4,7 @@ Tiled-Image-Segmentation-Multiple-Myeloma (Updated: 2023/06/12)
 This is an experimental project to detect <b>Multiple-Myeloma</b> from some pieces of tiled-images created from a large 4K image,
 by using our <a href="https://github.com/atlan-antillia/Tensorflow-Slightly-Flexible-UNet">
 Tensorflow-Slightly-Flexible-UNet.</a><br>
-The original dataset used here has been take from the following  web site:<br>
+The original dataset used here has been take from the following  web site:<br><br>
 <b>SegPC-2021-dataset</b><br>
 SegPC-2021: Segmentation of Multiple Myeloma Plasma Cells in Microscopic Images<br>
 <pre>
@@ -13,7 +13,8 @@ https://www.kaggle.com/datasets/sbilab/segpc2021dataset
 Citation:<br>
 
 <pre>
-Anubha Gupta, Ritu Gupta, Shiv Gehlot, Shubham Goswami, April 29, 2021, "SegPC-2021: Segmentation of Multiple Myeloma Plasma Cells in Microscopic Images", IEEE Dataport, doi: https://dx.doi.org/10.21227/7np1-2q42.
+Anubha Gupta, Ritu Gupta, Shiv Gehlot, Shubham Goswami, April 29, 2021, "SegPC-2021: Segmentation of Multiple Myeloma Plasma Cells 
+in Microscopic Images", IEEE Dataport, doi: https://dx.doi.org/10.21227/7np1-2q42.
 
 BibTex
 @data{segpc2021,
@@ -142,7 +143,7 @@ TCIA_SegPC_dataset
 </pre>
 Each <b>x</b> folder of the dataset contains the ordinary image files of Multiple Myeloma Plasma Cells,
 and <b>y</b> folder contains the mask files to identify each Cell of the ordinary image files.
-  Both the image size of all files in <b>x</b> and <b>y</b> is 2560x1920, which is apparently too large to use 
+  Both the image size of all files in <b>x</b> and <b>y</b> is 2560x1920 (2.5K), which is apparently too large to use 
 for our TensoflowUNet Model.<br>
 
 Sample images in train/x:<br>
@@ -324,7 +325,7 @@ The evaluation result of this time is the following.<br>
 </h2>
 By using Python script <a href="./projects/MultipleMyeloma/resize4k.py">resize4k.py</a>,
 we have created 4K size <b>4k_mini_test</b> dataset, which is a set of 4K size images
-created from the original 2K image bmp dataset in the following <b>x</b> images folder:
+created from the original 2.5K image bmp dataset in the following <b>x</b> images folder:
 <pre>
 TCIA_SegPC_dataset
 └─test
@@ -409,6 +410,74 @@ For example, 4K image file in 4k_mini_test will be split into a lot of pieces of
 
 </table>
 
+<h2>
+6 Non Tiled Image Segmentation
+</h2>
+For comparison, please move to ./projects/MultipleMyeloma directory, and run the following bat file.<br>
+<pre>
+>3.infer.bat
+</pre>
+, which simply runs the following command.<br>
+<pre>
+>python ../../TensorflowUNetInfer.py train_eval_infer.config
+</pre>
+This Python script performs <b>Non-Tiled-Image-Inference</b> based on the directory settings in 
+in following <b>infer</b> section,
+ <pre>
+[infer] 
+images_dir    = "./mini_test" 
+output_dir    = "./mini_test_output"
+</pre>
+In this case, the images_dir in that section contains 2.5K image files taken from
+<pre>
+TCIA_SegPC_dataset
+└─test
+    └─x
+</pre>
+
+<b>Input images (mini_test) </b><br>
+<img src="./asset/mini_test.png" width="1024" height="auto"><br>
+<br>
+<b>Infered images (mini_test_output)</b><br>
+<img src="./asset/non_tiled_mini_test_output.png" width="1024" height="auto"><br><br>
+<br>
+<b>Detailed images comarison:</b><br>
+<table>
+<tr><td>mini_test/405.jpg</td></tr>
+<tr>
+<td><img src="./projects/MultipleMyeloma/mini_test/405.bmp" width="480" height="auto"></td>
+<td><img src="./projects/MultipleMyeloma/mini_test_output/405.jpg" width="480" height="auto"></td>
+</tr>
+<tr><td>mini_test/605.jpg</td></tr>
+
+<tr>
+<td><img src="./projects/MultipleMyeloma/mini_test/605.bmp" width="480" height="auto"></td>
+<td><img src="./projects/MultipleMyeloma/mini_test_output/605.jpg" width="480" height="auto"></td>
+</tr>
+
+<tr><td>mini_test/1735.jpg</td></tr>
+
+<tr>
+<td><img src="./projects/MultipleMyeloma/mini_test/1735.bmp" width="480" height="auto"></td>
+<td><img src="./projects/MultipleMyeloma/mini_test_output/1735.jpg" width="480" height="auto"></td>
+</tr>
+
+<tr><td>mini_test/1923.jpg</td></tr>
+
+<tr>
+<td><img src="./projects/MultipleMyeloma/mini_test/1923.bmp" width="480" height="auto"></td>
+<td><img src="./projects/MultipleMyeloma/mini_test_output/1923.jpg" width="480" height="auto"></td>
+</tr>
+
+<tr><td>mini_test/2028.jpg</td></tr>
+
+<tr>
+<td><img src="./projects/MultipleMyeloma/mini_test/2028.bmp" width="480" height="auto"></td>
+<td><img src="./projects/MultipleMyeloma/mini_test_output/2028.jpg" width="480" height="auto"></td>
+</tr>
+
+</table>
+
 <h3>
 References
 </h3>
@@ -419,7 +488,8 @@ https://www.kaggle.com/datasets/sbilab/segpc2021dataset
 </pre>
 Citation:<br>
 <pre>
-Anubha Gupta, Ritu Gupta, Shiv Gehlot, Shubham Goswami, April 29, 2021, "SegPC-2021: Segmentation of Multiple Myeloma Plasma Cells in Microscopic Images", IEEE Dataport, doi: https://dx.doi.org/10.21227/7np1-2q42.
+Anubha Gupta, Ritu Gupta, Shiv Gehlot, Shubham Goswami, April 29, 2021, "SegPC-2021: Segmentation of Multiple Myeloma Plasma Cells 
+in Microscopic Images", IEEE Dataport, doi: https://dx.doi.org/10.21227/7np1-2q42.
 BibTex
 @data{segpc2021,
 doi = {10.21227/7np1-2q42},
