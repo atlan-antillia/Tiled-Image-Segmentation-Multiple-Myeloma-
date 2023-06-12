@@ -44,7 +44,7 @@ CC BY-NC-SA 4.0
 
 <br>
 <h2>
-1. Installing tensorflow on Windows11
+1. Install tensorflow on Windows11
 </h2>
 We use Python 3.8.10 to run tensoflow 2.10.1 on Windows11.<br>
 <h3>1.1 Install Microsoft Visual Studio Community</h3>
@@ -79,7 +79,7 @@ You have to modify extra_compiler_args in setup.py in the following way:
 
 <br>
 <h2>
-2. Installing Tiled-Image-Segmentation-Multiple-Myeloma
+2. Install Tiled-Image-Segmentation-Multiple-Myeloma
 </h2>
 <h3>2.1 Clone repository</h3>
 Please clone Tiled-Image-Segmentation-Multiple-Myeloma.git in the working folder <b>c:\google</b>.<br>
@@ -141,7 +141,7 @@ TCIA_SegPC_dataset
     └─y
 </pre>
 Each <b>x</b> folder of the dataset contains the ordinary image files of Multiple Myeloma Plasma Cells,
-and <b>y</b> folder contains the mask file to identify each Cell of the ordinary image files.
+and <b>y</b> folder contains the mask files to identify each Cell of the ordinary image files.
   Both the image size of all files in <b>x</b> and <b>y</b> is 2560x1920, which is apparently too large to use 
 for our TensoflowUNet Model.<br>
 
@@ -188,7 +188,7 @@ Finally, we have generated the resized jpg files dataset below.<br>
 </h2>
  We have trained MultipleMyeloma TensorflowUNet Model by using the following
  <b>train_eval_infer.config</b> file. <br>
-Pleae move to ./projects/MultipleMyeloma directory, and run the following bat file.<br>
+Please move to ./projects/MultipleMyeloma directory, and run the following bat file.<br>
 <pre>
 >1.train.bat
 </pre>
@@ -305,7 +305,7 @@ The val_loss is also very low as shown below from the beginning of the training.
 4 Evaluation
 </h2>
  We have evaluated prediction accuracy of our Pretrained MultipleMyeloma Model by using <b>test</b> dataset.
-Pleae move to ./projects/MultipleMyeloma directory, and run the following bat file.<br>
+Please move to ./projects/MultipleMyeloma directory, and run the following bat file.<br>
 <pre>
 >2.evalute.bat
 </pre>
@@ -332,7 +332,7 @@ TCIA_SegPC_dataset
 </pre>
 
 
-Pleae move to ./projects/MultipleMyeloma directory, and run the following bat file.<br>
+Please move to ./projects/MultipleMyeloma directory, and run the following bat file.<br>
 <pre>
 >4.tiled_infer.bat
 </pre>
