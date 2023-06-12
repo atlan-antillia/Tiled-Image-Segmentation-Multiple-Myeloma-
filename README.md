@@ -84,7 +84,7 @@ You have to modify extra_compiler_args in setup.py in the following way:
 <h3>2.1 Clone repository</h3>
 Please clone Tiled-Image-Segmentation-Multiple-Myeloma.git in the working folder <b>c:\google</b>.<br>
 <pre>
->git clone https://github.com/sarah-antillia/Tiled-Image-Segmentation-Multiple-Myeloma.git<br>
+>git clone https://github.com/atlan-antillia/Tiled-Image-Segmentation-Multiple-Myeloma.git<br>
 </pre>
 You can see the following folder structure in Tiled-Image-Segmentation-Multiple-Myeloma of the working folder.<br>
 
