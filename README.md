@@ -1,5 +1,5 @@
 <h2>
-Tile-Image-Segmentation-Multiple-Myeloma (Updated: 2023/06/12)
+Tiled-Image-Segmentation-Multiple-Myeloma (Updated: 2023/06/12)
 </h2>
 This is an experimental project to detect <b>Multiple-Myeloma</b> from some pieces of tiled-images created from a large 4K image,
 by using our <a href="https://github.com/atlan-antillia/Tensorflow-Slightly-Flexible-UNet">
