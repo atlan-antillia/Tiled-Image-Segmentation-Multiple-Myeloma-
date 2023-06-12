@@ -379,28 +379,28 @@ For example, 4K image file in 4k_mini_test will be splitted a lot of pieces of t
 <td><img src="./projects/MultipleMyeloma/4k_mini_test/405.jpg" width="480" height="auto"></td>
 <td><img src="./projects/MultipleMyeloma/4k_tiled_mini_test_output/405.jpg" width="480" height="auto"></td>
 </tr>
-<tr><td>4k_mini_test/605.bmp</td></tr>
+<tr><td>4k_mini_test/605.jpg</td></tr>
 
 <tr>
 <td><img src="./projects/MultipleMyeloma/4k_mini_test/605.jpg" width="480" height="auto"></td>
 <td><img src="./projects/MultipleMyeloma/4k_tiled_mini_test_output/605.jpg" width="480" height="auto"></td>
 </tr>
 
-<tr><td>4k_mini_test/1735.bmp</td></tr>
+<tr><td>4k_mini_test/1735.jpg</td></tr>
 
 <tr>
 <td><img src="./projects/MultipleMyeloma/4k_mini_test/1735.jpg" width="480" height="auto"></td>
 <td><img src="./projects/MultipleMyeloma/4k_tiled_mini_test_output/1735.jpg" width="480" height="auto"></td>
 </tr>
 
-<tr><td>4k_mini_test/1923.bmp</td></tr>
+<tr><td>4k_mini_test/1923.jpg</td></tr>
 
 <tr>
 <td><img src="./projects/MultipleMyeloma/4k_mini_test/1923.jpg" width="480" height="auto"></td>
 <td><img src="./projects/MultipleMyeloma/4k_tiled_mini_test_output/1923.jpg" width="480" height="auto"></td>
 </tr>
 
-<tr><td>4k_mini_test/2028.bmp</td></tr>
+<tr><td>4k_mini_test/2028.jpg</td></tr>
 
 <tr>
 <td><img src="./projects/MultipleMyeloma/4k_mini_test/2028.jpg" width="480" height="auto"></td>
