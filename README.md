@@ -456,3 +456,10 @@ Toshiyuki Arai @antillia.com<br>
 <pre>
 https://github.com/sarah-antillia/EfficientDet-Multiple-Myeloma</pre>
 <br>
+
+<b>4. Image-Segmentation-Multiple-Myeloma</b><br>
+Toshiyuki Arai @antillia.com<br>
+<pre>
+https://github.com/atlan-antillia/Image-Segmentation-Multiple-Myeloma
+</pre>
+<br>
