@@ -155,95 +155,6 @@ class TensorflowUNet:
     tf.random.set_seed(seed)
 
 
-  def vvvvvcreate(self, num_classes, image_height, image_width, image_channels,
-            base_filters = 16, num_layers = 5):
-    # inputs
-    print("Input image_height {} image_width {} image_channels {}".format(image_height, image_width, image_channels))
-    inputs = Input((image_height, image_width, image_channels))
-    s= Lambda(lambda x: x / 255)(inputs)
-
-    # Encoder
-    dropout_rate = self.config.get(MODEL, "dropout_rate")
-    enc         = []
-
-    pool_size    = (2, 2)
-    kernel_sizes = [(3,3), (3,3)]
-    # <experiment on="2023/06/07"> 
-    #kernel_sizes = [(5, 5), (3,3)]
-    for n in range(num_layers-2):
-      kernel_sizes  += [(3,3)]  
-    rkernel_sizes =  kernel_sizes[::-1]
-    print("--- kernel_size   {}".format(kernel_sizes))
-    print("--- rkernel_size  {}".format(rkernel_sizes))
-    # </experiment>
-
-    dilation    = self.config.get(MODEL, "dilation")
-    print("=== dilation {}".format(dilation))      
-    #kernel_sizes = self.config.get(MODEL, "kernel_sizes")
-  
-    strides = (1,1)
-    for i in range(num_layers):
-      filters = base_filters * (2**i)
-      kernel_size = kernel_sizes[i] #random.choice(kernel_sizes)
-    
-  
-      c = Conv2D(filters, kernel_size, strides=strides, activation=relu, 
-                 kernel_initializer='he_normal', dilation_rate=dilation, padding='same')(s)
-      c = Dropout(dropout_rate * i)(c)
-      c = Conv2D(filters, kernel_size, strides=strides, activation=relu, 
-                 kernel_initializer='he_normal', dilation_rate=dilation, padding='same')(c)
-      # 2023/06/06 Added the following block
-      #c = Dropout(dropout_rate * i)(c)
-      #c = Conv2D(filters, kernel_size, strides=strides, activation=relu, 
-      #           kernel_initializer='he_normal', dilation_rate=dilation, padding='same')(c)
-      #c = BatchNormalization(c)
-    
-      if i < (num_layers-1):
-        p = MaxPool2D(pool_size=pool_size)(c)
-        s = p
-      enc.append(c)
-
-    #print(enc)
-    enc_len = len(enc)
-    print("---len {}".format(enc_len))
-    enc.reverse()
-    n = 0
-    c = enc[n]
-    
-    # --- Decoder
-   
-    for i in range(num_layers-1):
-      kernel_size = rkernel_sizes[i] #random.choice(kernel_sizes)
-
-      f = enc_len - 2 - i
-      filters = base_filters* (2**f)
-      #for kernel_size in reversed(kernel_sizes):
-      u = Conv2DTranspose(filters, (2, 2), strides=(2, 2), padding='same')(c)
-      n += 1
-      u = concatenate([u, enc[n]])
-      u = Conv2D(filters, kernel_size, strides=strides, activation=relu, 
-                 kernel_initializer='he_normal', dilation_rate=dilation, padding='same')(u)
-      u = Dropout(dropout_rate * f)(u)
-      u = Conv2D(filters, kernel_size, strides=strides, activation=relu, 
-                 kernel_initializer='he_normal', dilation_rate=dilation, padding='same')(u)
-      
-      # 2023/06/06 Added the following block      
-      #u = Dropout(dropout_rate * f)(u)
-      #u = Conv2D(filters, kernel_size, strides=strides, activation=relu, 
-      #           kernel_initializer='he_normal', dilation_rate=dilation, padding='same')(u)
-      #u = BatchNormalization(u)
-      
-      c  = u
-
-    # outouts
-    outputs = Conv2D(num_classes, (1, 1), activation='sigmoid')(c)
-
-    # create Model
-    model = Model(inputs=[inputs], outputs=[outputs])
-
-    return model
-
-
   def create(self, num_classes, image_height, image_width, image_channels,
             base_filters = 16, num_layers = 5):
     # inputs
@@ -295,58 +206,6 @@ class TensorflowUNet:
       u = Dropout(dropout_rate * f)(u)
       u = Conv2D(filters, kernel_size, strides=strides, activation=relu, 
                  kernel_initializer='he_normal', dilation_rate=dilation, padding='same')(u)
-      c  = u
-
-    # outouts
-    outputs = Conv2D(num_classes, (1, 1), activation='sigmoid')(c)
-
-    # create Model
-    model = Model(inputs=[inputs], outputs=[outputs])
-
-    return model
-
-  def xxxcreate(self, num_classes, image_height, image_width, image_channels,
-            base_filters = 16, num_layers = 5):
-    # inputs
-    print("Input image_height {} image_width {} image_channels {}".format(image_height, image_width, image_channels))
-    inputs = Input((image_height, image_width, image_channels))
-    s = Lambda(lambda x: x / 255)(inputs)
-
-    # Encoder
-    dropout_rate = self.config.get(MODEL, "dropout_rate")
-    enc         = []
-    kernel_size = (3, 3)
-    pool_size   = (2, 2)
-
-    for i in range(num_layers):
-      filters = base_filters * (2**i)
-      c = Conv2D(filters, kernel_size, activation=relu, kernel_initializer='he_normal', padding='same')(s)
-      #c = BatchNormalization()(c)
-      c = Dropout(dropout_rate * i)(c)
-      c = Conv2D(filters, kernel_size, activation=relu, kernel_initializer='he_normal',padding='same')(c)
-      #c = BatchNormalization()(c)
-      if i < (num_layers-1):
-        p = MaxPool2D(pool_size=pool_size)(c)
-        s = p
-      enc.append(c)
-    
-    enc_len = len(enc)
-    enc.reverse()
-    n = 0
-    c = enc[n]
-    
-    # --- Decoder
-    for i in range(num_layers-1):
-      f = enc_len - 2 - i
-      filters = base_filters* (2**f)
-      u = Conv2DTranspose(filters, (2, 2), strides=(2, 2), padding='same')(c)
-      n += 1
-      u = concatenate([u, enc[n]])
-      u = Conv2D(filters, kernel_size, activation=relu, kernel_initializer='he_normal', padding='same')(u)
-      #u = BatchNormalization()(u)
-      u = Dropout(dropout_rate * f)(u)
-      u = Conv2D(filters, kernel_size, activation=relu, kernel_initializer='he_normal',padding='same')(u)
-      #u = BatchNormalization()(u)
       c  = u
 
     # outouts
@@ -465,14 +324,22 @@ class TensorflowUNet:
         os.makedirs(merged_dir)
     except:
       pass
+    split_size  = self.config.get(MODEL, "image_width")
+    print("---split_size {}".format(split_size))
 
     for image_file in image_files:
       image = Image.open(image_file)
       w, h  = image.size
-      split_size  = self.config.get(MODEL, "image_width")
 
-      vert_split_num  = h // split_size + 1
-      horiz_split_num = w // split_size + 1
+      vert_split_num  = h // split_size
+      if h % split_size != 0:
+        vert_split_num += 1
+
+      horiz_split_num = w // split_size
+      if w % split_size != 0:
+        horiz_split_num += 1
+
+    
       background      = Image.new("L", (w, h))
       #print("=== width {} height {}".format(w, h))
       #print("=== horiz_split_num {}".format(horiz_split_num))
