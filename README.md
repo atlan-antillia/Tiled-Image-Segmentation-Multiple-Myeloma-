@@ -352,13 +352,13 @@ merged_dir = "./4k_tiled_mini_test_output_merged"
 
 The TensorflowUNetTiledInfer.py script performs the following processings for each 4K image file.<br>
 <pre>
-1 Read a 4K image in images_dir folder.
+1 Read a 4K image file in images_dir folder.
 2 Split the image into multile tiles by image size of Model.
 3 Infer for all tiled images.
 4 Merge all inferred mask,
 </pre>
 
-For example, 4K image file in 4k_mini_test will be splitted a lot of pieces of tiled split images as shown below;<br>
+For example, 4K image file in 4k_mini_test will be split into a lot of pieces of tiled split images as shown below;<br>
 <b>4K 405.jpg</b><br>
 <img src="./asset/405.jpg" width="1024" height="auto"><br><br>
 <b>Tiled split images </b><br>
