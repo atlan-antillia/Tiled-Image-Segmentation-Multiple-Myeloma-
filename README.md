@@ -533,3 +533,18 @@ Toshiyuki Arai @antillia.com<br>
 https://github.com/atlan-antillia/Image-Segmentation-Multiple-Myeloma
 </pre>
 <br>
+
+<b>5. The revolutionary benefits of 4K in healthcare</b><br>
+SONY<br>
+<pre>
+https://pro.sony/en_CZ/healthcare/imaging-innovations-insights/operating-room-4k-visualisation
+</pre>
+<br>
+
+<b>6. Three Reasons to Use 4K Endoscopy and Surgical Monitors</b><br>
+EIZO<br>
+<pre>
+https://www.eizo.com/library/healthcare/reasons-to-use-4k-surgical-and-endoscopy-monitors/
+</pre>
+<br>
+
