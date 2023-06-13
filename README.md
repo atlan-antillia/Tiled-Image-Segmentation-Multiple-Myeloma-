@@ -364,6 +364,13 @@ The TensorflowUNetTiledInfer.py script performs the following processings for ea
 3 Infer for all tiled images.
 4 Merge all inferred mask,
 </pre>
+Currently, we don't support <b>Seamless Smooth Stitching</b> on the mask merging process.  
+<br>
+See also:
+<b>Tiling and stitching segmentation output for remote sensing: basic challenges and recommendations</b><br>
+<pre>
+https://arxiv.org/ftp/arxiv/papers/1805/1805.12219.pdf
+</pre>
 
 For example, 4K image file in 4k_mini_test will be split into a lot of pieces of tiled split images as shown below;<br>
 <b>4K 405.jpg</b><br>
