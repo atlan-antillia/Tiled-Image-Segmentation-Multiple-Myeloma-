@@ -43,6 +43,12 @@ License
 CC BY-NC-SA 4.0
 </pre>
 
+See also:<br>
+<b>Systematic Evaluation of Image Tiling Adverse Effects on Deep Learning Semantic Segmentation</b><br>
+<pre>
+https://www.frontiersin.org/articles/10.3389/fnins.2020.00065/full
+</pre>
+
 <br>
 <h2>
 1. Install tensorflow on Windows11
@@ -545,6 +551,24 @@ https://pro.sony/en_CZ/healthcare/imaging-innovations-insights/operating-room-4k
 EIZO<br>
 <pre>
 https://www.eizo.com/library/healthcare/reasons-to-use-4k-surgical-and-endoscopy-monitors/
+</pre>
+<br>
+
+<!-- 
+  -->
+
+<b>7. Systematic Evaluation of Image Tiling Adverse Effects on Deep Learning Semantic Segmentation</b><br>
+G. Anthony Reina1, Ravi Panchumarthy, Siddhesh Pravin Thakur, <br>
+Alexei Bastidas1 and Spyridon Bakas<br>
+<pre>
+https://www.frontiersin.org/articles/10.3389/fnins.2020.00065/full</pre>
+<br>
+
+<b>8. Tiling and stitching segmentation output for remote sensing: basic challenges and recommendations</b><br>
+Bohao Huang, Daniel Reichman, Leslie M. Collins<br>
+, Kyle Bradbury, and Jordan M. Malof<br>
+<pre>
+https://arxiv.org/ftp/arxiv/papers/1805/1805.12219.pdf
 </pre>
 <br>
 
