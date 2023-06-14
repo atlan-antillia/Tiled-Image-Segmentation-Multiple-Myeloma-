@@ -436,7 +436,7 @@ image_width    = 512
 image_height   = 512
 </pre>
 We are able to get a slightly clear better result as shown below.<br>
-<img src="./asset/512x512_4k_mini_test_output.jpg" width="1024" height="auto"><br>
+<img src="./asset/512x512_4k_mini_test_output.png" width="1024" height="auto"><br>
 <br>
 
 <h2>
