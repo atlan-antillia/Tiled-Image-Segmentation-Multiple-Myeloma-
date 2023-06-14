@@ -422,9 +422,25 @@ For example, 4K image file in 4k_mini_test will be split into a lot of pieces of
 </tr>
 
 </table>
+<br>
+<h2>
+6 Improve Tiled Image Segmentation
+</h2>
+How to improve detection accuracy of our Tiled-Image-Segmentation Model?<br>
+At least, it is much better to increase the image size of our UNet Model from 256x256 to 512x512.
+We only have to chanage the configuration file <b>train_eval_infer.config</b> as shown below, and retrain the our UNetModel.<br>
+<pre>
+; train_eval_infer.config
+[model]
+image_width    = 512
+image_height   = 512
+</pre>
+We are able to get a slightly clear better result as shown below.<br>
+<img src="./asset/512x512_4k_mini_test_output.jpg" width="1024" height="auto"><br>
+<br>
 
 <h2>
-6 Non Tiled Image Segmentation
+7 Non Tiled Image Segmentation
 </h2>
 For comparison, please move to ./projects/MultipleMyeloma directory, and run the following bat file.<br>
 <pre>
