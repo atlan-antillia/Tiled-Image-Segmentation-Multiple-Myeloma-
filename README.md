@@ -456,7 +456,7 @@ Please move to ./projects/MultipleMyeloma directory, and run the following train
 >python ../../TensorflowUNetTiledInfer.py ./train_eval_infer_512x512.config
 </pre>
 
-We are able to get a slightly clear better inference results as shown below.<br>
+We are able to get slightly clear better inference results as shown below.<br>
 
 <img src="./asset/4k_mini_test_output_512x512.png" width="1024" height="auto"><br>
 <br>
