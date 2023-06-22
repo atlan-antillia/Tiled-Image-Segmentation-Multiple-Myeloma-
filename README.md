@@ -50,7 +50,7 @@ https://www.frontiersin.org/articles/10.3389/fnins.2020.00065/full
 </pre>
 
 <ul>
-<li>2023/06/22 Updated TensorflowUNet.py to be able to create previous eval_dir and model_dir.</li>
+<li>2023/06/22 Updated TensorflowUNet.py to backup copies of previous eval_dir and model_dir.</li>
 <li>2023/06/22 Modified TensorflowUNet.py to copy a configuration file to a model saving directory.</li>
 <li>2023/06/22 Retrained TensorflowUNet model by using two type of model sizes, 256x256 and 512x512.</li>
 </ul>
@@ -442,7 +442,7 @@ By this modification, we are able to get a slightly clear better result than bef
 <br>
 
 <h2>
-<<<<<<< HEAD
+
 6 Improve Tiled Image Segmentation
 </h2>
 How to improve detection accuracy of our Tiled-Image-Segmentation Model?<br>
@@ -498,8 +498,6 @@ We are able to get a slightly clear better result as shown below.<br>
 </table>
 
 <h2>
-=======
->>>>>>> eb158ac211b3096ec6f844c0f43394a65195500f
 7 Non Tiled Image Segmentation
 </h2>
 For comparison, please move to ./projects/MultipleMyeloma directory, and run the following bat file.<br>
