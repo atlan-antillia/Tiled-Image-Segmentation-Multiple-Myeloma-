@@ -429,9 +429,9 @@ For example, 4K image file in 4k_mini_test will be split into a lot of pieces of
 <h2>
 6 Improve Tiled Image Segmentation
 </h2>
-How to improve detection accuracy of our Tiled-Image-Segmentation Model?<br>
+How to improve segmentation accuracy of our Tiled-Image-Segmentation Model?<br>
 At least, it is much better to increase the image size of our UNet Model from 256x256 to 512x512.
-We only have to chanage the configuration file <b>train_eval_infer.config</b> as shown below, and retrain the our UNetModel.<br>
+We only have to chanage the configuration file <b>train_eval_infer.config</b> as shown below, and retrain that UNetModel.<br>
 <pre>
 ; train_eval_infer_512x512.config
 [model]
