@@ -21,9 +21,7 @@ import os
 import shutil
 import traceback
 
-
 import tensorflow as tf
-
 
 class EpochChangeCallback(tf.keras.callbacks.Callback):
 
@@ -42,7 +40,7 @@ class EpochChangeCallback(tf.keras.callbacks.Callback):
     self.train_accuracies_file = os.path.join(self.eval_dir, "train_metrics.csv")  
     try:
       if not os.path.exists(self.train_losses_file):
-        with open(self.train_losses_file, "w") as f:
+        with open(self.train_losses_file, "w", encoding="utf-8") as f:
           header = "epoch, loss, val_loss\n"
           f.write(header)
     except Exception as ex:
@@ -50,7 +48,7 @@ class EpochChangeCallback(tf.keras.callbacks.Callback):
 
     try:
       if not os.path.exists(self.train_accuracies_file):
-        with open(self.train_accuracies_file, "w") as f:
+        with open(self.train_accuracies_file, "w", encoding="utf-8") as f:
           header = "epoch," + metrics[0] + "," + metrics[1] + "," + "\n"
           f.write(header)
     except Exception as ex:
@@ -80,14 +78,14 @@ class EpochChangeCallback(tf.keras.callbacks.Callback):
     NL  = "\n"
 
     try:
-       with open(self.train_losses_file, "a") as f:
+       with open(self.train_losses_file, "a", encoding="utf-8") as f:
          losses    = "{}, {:.4f}, {:.4f}".format(epoch, loss, val_loss)
          f.write(losses + NL)
     except Exception as ex:
         traceback.print_exc()
 
     try:
-       with open(self.train_accuracies_file, "a") as f:
+       with open(self.train_accuracies_file, "a", encoding="utf-8") as f:
          accuraies = "{}, {:.4f}, {:.4f}".format(epoch, acc,  val_acc)
          f.write(accuraies + NL)
  

@@ -1,5 +1,5 @@
 <h2>
-Tiled-Image-Segmentation-Multiple-Myeloma (Updated: 2023/06/12)
+Tiled-Image-Segmentation-Multiple-Myeloma (Updated: 2023/06/22)
 </h2>
 This is an experimental project to detect <b>Multiple-Myeloma</b> from some pieces of tiled-images created from a large 4K image,
 by using our <a href="https://github.com/atlan-antillia/Tensorflow-Slightly-Flexible-UNet">
@@ -48,6 +48,12 @@ See also:<br>
 <pre>
 https://www.frontiersin.org/articles/10.3389/fnins.2020.00065/full
 </pre>
+
+<ul>
+<li>2023/06/22 Updated TensorflowUNet.py to be able to create previous eval_dir and model_dir.</li>
+<li>2023/06/22 Modified TensorflowUNet.py to copy a configuration file to a model saving directory.</li>
+<li>2023/06/22 Retrained TensorflowUNet model by using two type of model sizes, 256x256 and 512x512.</li>
+</ul>
 
 <br>
 <h2>
@@ -102,12 +108,15 @@ Tiled-Image-Segmentation-Multiple-Myeloma
     └─MultipleMyeloma
         ├─4k_mini_test
         ├─4k_tiled_mini_test_output
-        ├─4k_tiled_mini_test_output_merged
+        ├─4k_tiled_mini_test_output_512x512
         ├─eval
+        ├─eval_512x512
         ├─generator
         ├─mini_test
         ├─mini_test_output
+        ├─mini_test_output_512x512
         ├─models
+        ├─models_512x512
         └─MultipleMyeloma
             ├─train
             │  ├─images
@@ -157,7 +166,6 @@ Sample images in train/x:<br>
 Sample masks in train/y:<br>
 <img src="./asset/train_y.png" width="720" height="auto"><br>
 
- 
 <h3>
 2.3.2. Generate MultipleMyeloma Image Dataset
 </h3>
@@ -201,27 +209,24 @@ Please move to ./projects/MultipleMyeloma directory, and run the following bat f
 </pre>
 , which simply runs the following command.<br>
 <pre>
->python ../../TensorflowUNetTrainer.py train_eval_infer.config
+>python ../../TensorflowUNetTrainer.py ./train_eval_infer.config
 </pre>
 This python script above will read the following configration file, build TensorflowUNetModel, and
 start training the model by using 
 <pre>
 ; train_eval_infer.config
-; 2023/6/12 antillia.com
+; 2023/6/22 antillia.com
 
 ; Modified to use loss and metric
 ; Specify loss as a function nams
-; loss =  "binary_crossentropy"
 ; loss = "bce_iou_loss"
 ; Specify metrics as a list of function name
 ; metrics = ["binary_accuracy"]
-; metrics = ["binary_accuracy", "sensitivity", "specificity"]
 ; Please see: https://www.tensorflow.org/api_docs/python/tf/keras/Model?version=stable#compile
 
 [model]
 image_width    = 256
 image_height   = 256
-
 image_channels = 3
 num_classes    = 1
 base_filters   = 16
@@ -229,11 +234,8 @@ num_layers     = 6
 dropout_rate   = 0.08
 learning_rate  = 0.001
 dilation       = (1,1)
-;loss           = "binary_crossentropy"
 loss           = "bce_iou_loss"
 metrics        = ["binary_accuracy"]
-;metrics        = ["binary_accuracy", "sensitivity", "specificity"]
-
 show_summary   = False
 
 [train]
@@ -241,12 +243,12 @@ epochs        = 100
 batch_size    = 4
 patience      = 10
 metrics       = ["binary_accuracy", "val_binary_accuracy"]
-
 model_dir     = "./models"
 eval_dir      = "./eval"
-
 image_datapath = "./MultipleMyeloma/train/images/"
 mask_datapath  = "./MultipleMyeloma/train/masks/"
+;2023/06/22
+create_backup  = True
 
 [eval]
 image_datapath = "./MultipleMyeloma/valid/images/"
@@ -259,13 +261,11 @@ output_dir    = "./mini_test_output"
 [tiledinfer] 
 images_dir = "./4k_mini_test"
 output_dir = "./4k_tiled_mini_test_output"
-merged_dir = "./4k_tiled_mini_test_output_merged"
 
 [mask]
 blur      = True
 binarize  = True
 threshold = 60
-
 </pre>
 
 Since <pre>loss = "bce_iou_loss"</pre> and <pre>metrics = ["binary_accuracy"] </pre> are specified 
@@ -295,17 +295,19 @@ On detail of these functions, please refer to <a href="./losses.py">losses.py</a
 <a href="https://github.com/shruti-jadon/Semantic-Segmentation-Loss-Functions/tree/master">Semantic-Segmentation-Loss-Functions (SemSegLoss)</a>.
 
 
-The training process has just been stopped at epoch 71 by an early-stopping callback as shown below.<br><br>
-<img src="./asset/tiled_train_console_output_at_epoch_71_0612.png" width="720" height="auto"><br>
+The training process has just been stopped at epoch 68 by an early-stopping callback as shown below.<br><br>
+<img src="./asset/train_console_output_at_epoch_68_0622.png" width="720" height="auto"><br>
 <br>
-The <b>val_accuracy</b> is very high as shown below from the beginning of the training.<br>
+
+<br><br>
+The <b>val_binary_accuracy</b> is very high as shown below from the beginning of the training.<br>
 <b>Train metrics line graph</b>:<br>
-<img src="./asset/tiled_train_metrics_at_epoch_71_0612.png" width="720" height="auto"><br>
+<img src="./asset/train_metrics_68.png" width="720" height="auto"><br>
 
 <br>
 The val_loss is also very low as shown below from the beginning of the training.<br>
 <b>Train losses line graph</b>:<br>
-<img src="./asset/tiled_train_losses_at_epoch_71_0612.png" width="720" height="auto"><br>
+<img src="./asset/train_losses_68.png" width="720" height="auto"><br>
 
 
 <h2>
@@ -321,7 +323,7 @@ Please move to ./projects/MultipleMyeloma directory, and run the following bat f
 >python ../../TensorflowUNetEvaluator.py train_eval_infer.config
 </pre>
 The evaluation result of this time is the following.<br>
-<img src="./asset/tiled_evaluate_console_output_at_epoch_71_0612.png" width="720" height="auto"><br>
+<img src="./asset/evaluate_console_output_at_epoch_68_0622.png" width="720" height="auto"><br>
 <br>
 
 <!--
@@ -354,7 +356,6 @@ in following <b>tiledinfer</b> section,
 [tiledinfer] 
 images_dir = "./4k_mini_test"
 output_dir = "./4k_tiled_mini_test_output"
-merged_dir = "./4k_tiled_mini_test_output_merged"
 </pre>
 
 The TensorflowUNetTiledInfer.py script performs the following processings for each 4K image file.<br>
@@ -386,35 +387,36 @@ For example, 4K image file in 4k_mini_test will be split into a lot of pieces of
 <b>Infered 4K images (4k_mini_test_output)</b><br>
 <img src="./asset/4k_mini_test_output.png" width="1024" height="auto"><br><br>
 <br>
+
 <b>Detailed 4K images comarison:</b><br>
 <table>
-<tr><td>4k_mini_test/405.jpg</td></tr>
+<tr><td>4k_mini_test/405.jpg</td><td>Inferred_image</td></tr>
 <tr>
 <td><img src="./projects/MultipleMyeloma/4k_mini_test/405.jpg" width="480" height="auto"></td>
 <td><img src="./projects/MultipleMyeloma/4k_tiled_mini_test_output/405.jpg" width="480" height="auto"></td>
 </tr>
-<tr><td>4k_mini_test/605.jpg</td></tr>
+<tr><td>4k_mini_test/605.jpg</td><td>Inferred_image</td></tr>
 
 <tr>
 <td><img src="./projects/MultipleMyeloma/4k_mini_test/605.jpg" width="480" height="auto"></td>
 <td><img src="./projects/MultipleMyeloma/4k_tiled_mini_test_output/605.jpg" width="480" height="auto"></td>
 </tr>
 
-<tr><td>4k_mini_test/1735.jpg</td></tr>
+<tr><td>4k_mini_test/1735.jpg</td><td>Inferred_image</td></tr>
 
 <tr>
 <td><img src="./projects/MultipleMyeloma/4k_mini_test/1735.jpg" width="480" height="auto"></td>
 <td><img src="./projects/MultipleMyeloma/4k_tiled_mini_test_output/1735.jpg" width="480" height="auto"></td>
 </tr>
 
-<tr><td>4k_mini_test/1923.jpg</td></tr>
+<tr><td>4k_mini_test/1923.jpg</td><td>Inferred_image</td></tr>
 
 <tr>
 <td><img src="./projects/MultipleMyeloma/4k_mini_test/1923.jpg" width="480" height="auto"></td>
 <td><img src="./projects/MultipleMyeloma/4k_tiled_mini_test_output/1923.jpg" width="480" height="auto"></td>
 </tr>
 
-<tr><td>4k_mini_test/2028.jpg</td></tr>
+<tr><td>4k_mini_test/2028.jpg</td><td>Inferred_image</td></tr>
 
 <tr>
 <td><img src="./projects/MultipleMyeloma/4k_mini_test/2028.jpg" width="480" height="auto"></td>
@@ -424,7 +426,62 @@ For example, 4K image file in 4k_mini_test will be split into a lot of pieces of
 </table>
 
 <h2>
-6 Non Tiled Image Segmentation
+6 Improve Tiled Image Segmentation
+</h2>
+How to improve detection accuracy of our Tiled-Image-Segmentation Model?<br>
+At least, it is much better to increase the image size of our UNet Model from 256x256 to 512x512.
+We only have to chanage the configuration file <b>train_eval_infer.config</b> as shown below, and retrain the our UNetModel.<br>
+<pre>
+; train_eval_infer_512x512.config
+[model]
+image_width    = 512
+image_height   = 512
+</pre>
+We are able to get a slightly clear better result as shown below.<br>
+
+<img src="./asset/4k_mini_test_output_512x512.png" width="1024" height="auto"><br>
+<br>
+<b>Detailed 4K images comarison:</b><br>
+<table>
+
+
+<tr><td>4k_mini_test/405.jpg</td><td>Inferred_image</td></tr>
+<tr>
+<td><img src="./projects/MultipleMyeloma/4k_mini_test/405.jpg" width="480" height="auto"></td>
+<td><img src="./projects/MultipleMyeloma/4k_tiled_mini_test_output_512x512/405.jpg" width="480" height="auto"></td>
+</tr>
+<tr><td>4k_mini_test/605.jpg</td><td>Inferred_image</td></tr>
+
+<tr>
+<td><img src="./projects/MultipleMyeloma/4k_mini_test/605.jpg" width="480" height="auto"></td>
+<td><img src="./projects/MultipleMyeloma/4k_tiled_mini_test_output_512x512/605.jpg" width="480" height="auto"></td>
+</tr>
+
+<tr><td>4k_mini_test/1735.jpg</td><td>Inferred_image</td></tr>
+
+<tr>
+<td><img src="./projects/MultipleMyeloma/4k_mini_test/1735.jpg" width="480" height="auto"></td>
+<td><img src="./projects/MultipleMyeloma/4k_tiled_mini_test_output_512x512/1735.jpg" width="480" height="auto"></td>
+</tr>
+
+<tr><td>4k_mini_test/1923.jpg</td><td>Inferred_image</td></tr>
+
+<tr>
+<td><img src="./projects/MultipleMyeloma/4k_mini_test/1923.jpg" width="480" height="auto"></td>
+<td><img src="./projects/MultipleMyeloma/4k_tiled_mini_test_output_512x512/1923.jpg" width="480" height="auto"></td>
+</tr>
+
+<tr><td>4k_mini_test/2028.jpg</td><td>Inferred_image</td></tr>
+
+<tr>
+<td><img src="./projects/MultipleMyeloma/4k_mini_test/2028.jpg" width="480" height="auto"></td>
+<td><img src="./projects/MultipleMyeloma/4k_tiled_mini_test_output_512x512/2028.jpg" width="480" height="auto"></td>
+</tr>
+
+</table>
+
+<h2>
+7 Non Tiled Image Segmentation
 </h2>
 For comparison, please move to ./projects/MultipleMyeloma directory, and run the following bat file.<br>
 <pre>
@@ -456,33 +513,33 @@ TCIA_SegPC_dataset
 <br>
 <b>Detailed images comarison:</b><br>
 <table>
-<tr><td>mini_test/405.jpg</td></tr>
+<tr><td>mini_test/405.jpg</td><td>Inferred_image</td></tr>
 <tr>
 <td><img src="./projects/MultipleMyeloma/mini_test/405.bmp" width="480" height="auto"></td>
 <td><img src="./projects/MultipleMyeloma/mini_test_output/405.jpg" width="480" height="auto"></td>
 </tr>
-<tr><td>mini_test/605.jpg</td></tr>
+<tr><td>mini_test/605.jpg</td><td>Inferred_image</td></tr>
 
 <tr>
 <td><img src="./projects/MultipleMyeloma/mini_test/605.bmp" width="480" height="auto"></td>
 <td><img src="./projects/MultipleMyeloma/mini_test_output/605.jpg" width="480" height="auto"></td>
 </tr>
 
-<tr><td>mini_test/1735.jpg</td></tr>
+<tr><td>mini_test/1735.jpg</td><td>Inferred_image</td></tr>
 
 <tr>
 <td><img src="./projects/MultipleMyeloma/mini_test/1735.bmp" width="480" height="auto"></td>
 <td><img src="./projects/MultipleMyeloma/mini_test_output/1735.jpg" width="480" height="auto"></td>
 </tr>
 
-<tr><td>mini_test/1923.jpg</td></tr>
+<tr><td>mini_test/1923.jpg</td><td>Inferred_image</td></tr>
 
 <tr>
 <td><img src="./projects/MultipleMyeloma/mini_test/1923.bmp" width="480" height="auto"></td>
 <td><img src="./projects/MultipleMyeloma/mini_test_output/1923.jpg" width="480" height="auto"></td>
 </tr>
 
-<tr><td>mini_test/2028.jpg</td></tr>
+<tr><td>mini_test/2028.jpg</td><td>Inferred_image</td></tr>
 
 <tr>
 <td><img src="./projects/MultipleMyeloma/mini_test/2028.bmp" width="480" height="auto"></td>

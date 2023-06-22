@@ -47,6 +47,8 @@ os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
 import shutil
 import sys
 import glob
+import datetime
+
 import traceback
 import random
 import numpy as np
@@ -100,6 +102,7 @@ class TensorflowUNet:
 
   def __init__(self, config_file):
     self.set_seed()
+    self.config_file = config_file
 
     self.config    = ConfigParser(config_file)
     image_height   = self.config.get(MODEL, "image_height")
@@ -216,6 +219,32 @@ class TensorflowUNet:
 
     return model
 
+  # 2023/06/22
+  def create_dirs(self, eval_dir, model_dir ):
+    dt_now = str(datetime.datetime.now())
+    dt_now = dt_now.replace(":", "_").replace(" ", "_")
+    create_backup = self.config.get(TRAIN, "create_backup", False)
+    if os.path.exists(eval_dir):
+      if create_backup:
+        moved_dir = eval_dir +"_" + dt_now + "_bak"
+        shutil.move(eval_dir, moved_dir)
+        print("--- Mmoved to {}".format(moved_dir))
+      else:
+        shutil.rmtree(eval_dir)
+
+    if not os.path.exists(eval_dir):
+      os.makedirs(eval_dir)
+
+    if os.path.exists(model_dir):
+      if create_backup:
+        moved_dir = model_dir +"_" + dt_now + "_bak"
+        shutil.move(model_dir, moved_dir)
+        print("--- Mmoved to {}".format(moved_dir))      
+      else:
+        shutil.rmtree(model_dir)
+    if not os.path.exists(model_dir):
+      os.makedirs(model_dir)
+
 
   def train(self, x_train, y_train): 
     batch_size = self.config.get(TRAIN, "batch_size")
@@ -228,11 +257,13 @@ class TensorflowUNet:
       metrics    = self.config.get(TRAIN, "metrics")
     except:
       pass
-    if os.path.exists(model_dir):
-      shutil.rmtree(model_dir)
+      
+    #2023/06/22
+    self.create_dirs(eval_dir, model_dir)
 
-    if not os.path.exists(model_dir):
-      os.makedirs(model_dir)
+    shutil.copy2(self.config_file, model_dir)
+    print("-- Copied {} to {}".format(self.config_file, model_dir))
+
     weight_filepath   = os.path.join(model_dir, BEST_MODEL_FILE)
 
     early_stopping = EarlyStopping(patience=patience, verbose=1)
