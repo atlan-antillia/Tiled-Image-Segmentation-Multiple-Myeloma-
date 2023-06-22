@@ -438,7 +438,25 @@ We only have to chanage the configuration file <b>train_eval_infer.config</b> as
 image_width    = 512
 image_height   = 512
 </pre>
-We are able to get a slightly clear better result as shown below.<br>
+<h3>1 Training 512x512 model</h3>
+Please move to ./projects/MultipleMyeloma directory, and run the following train bat file.<br>
+<pre>
+>201.train.bat
+</pre>
+, which simply runs the following command.<br>
+<pre>
+>python ../../TensorflowUNetTiledTrainer.py ./train_eval_infer_255x255.config
+</pre>
+<h3>2 Inference by 512x512 model</h3>
+<pre>
+>204.tiled_infer.bat
+</pre>
+, which simply runs the following command.<br>
+<pre>
+>python ../../TensorflowUNetTiledInfer.py ./train_eval_infer_512x512.config
+</pre>
+
+We are able to get a slightly clear better inference results as shown below.<br>
 
 <img src="./asset/4k_mini_test_output_512x512.png" width="1024" height="auto"><br>
 <br>
