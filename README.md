@@ -445,7 +445,7 @@ Please move to ./projects/MultipleMyeloma directory, and run the following train
 </pre>
 , which simply runs the following command.<br>
 <pre>
->python ../../TensorflowUNetTrainer.py ./train_eval_infer_255x255.config
+>python ../../TensorflowUNetTrainer.py ./train_eval_infer_512x512.config
 </pre>
 <h3>2 Inference by 512x512 model</h3>
 <pre>
