@@ -31,19 +31,6 @@
 # on tiled_image_segmentation.
 
 
-"""
-[model]
-image_width    = 256
-image_height   = 256
-image_channels = 3
-
-num_classes    = 1
-base_filters   = 16
-num_layers     = 8
-dropout_rate   = 0.08
-learning_rate  = 0.001
-"""
-
 import os
 import sys
 import datetime
