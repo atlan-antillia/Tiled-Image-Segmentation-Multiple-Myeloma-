@@ -1,5 +1,5 @@
 <h2>
-Tiled-Image-Segmentation-Multiple-Myeloma (Updated: 2023/06/22)
+Tiled-Image-Segmentation-Multiple-Myeloma (Updated: 2023/06/30)
 </h2>
 This is an experimental project to detect <b>Multiple-Myeloma</b> from some pieces of tiled-images created from a large 4K image,
 by using our <a href="https://github.com/atlan-antillia/Tensorflow-Slightly-Flexible-UNet">
@@ -53,6 +53,8 @@ https://www.frontiersin.org/articles/10.3389/fnins.2020.00065/full
 <li>2023/06/22 Updated TensorflowUNet.py to backup copies of previous eval_dir and model_dir.</li>
 <li>2023/06/22 Modified TensorflowUNet.py to copy a configuration file to a model saving directory.</li>
 <li>2023/06/22 Retrained TensorflowUNet model by using two type of model sizes, 256x256 and 512x512.</li>
+<li>2023/06/30 Added BatchNormalization flag to [model] section of config file to test adverse effects to tiled-image-segmentation .</li>
+
 </ul>
 
 <br>
@@ -530,6 +532,7 @@ TCIA_SegPC_dataset
 <b>Infered images (mini_test_output)</b><br>
 <img src="./asset/non_tiled_mini_test_output.png" width="1024" height="auto"><br><br>
 <br>
+<!--
 <b>Detailed images comarison:</b><br>
 <table>
 <tr><td>mini_test/405.jpg</td><td>Inferred_image</td></tr>
@@ -566,6 +569,37 @@ TCIA_SegPC_dataset
 </tr>
 
 </table>
+-->
+
+<h2>
+8 BatchNormalization Effects on Tiled-Image-Segmentation 
+</h2>
+The current TensorflowUNet Model has no BatchNormalization layers in Encoder and Decoder blocks.
+However, in order to test effects of BatchNormalization, we haved added optional parameter 
+in model section as shown below:<br>
+<pre>
+; train_eval_infer_normalized_512x512.config
+[model]
+normalization = True
+</pre>
+Furthermore, we have updated <b>create</b> method <a href="./TensorflowUNet.py">TensorflowUNet</a> class
+to insert BatchNormalization layers when that <b>normalization</b> flag is True.<br>
+Please move to <b>./projects/MultipleMyeloma/</b>, and run the following train bat file.
+<pre>
+>301.train_normalized_512x512.bat
+</pre>
+, by which TensorflowUNet Model with BatchNormalization will be created.<br>
+
+Please run the following tiled_infer bat file.<br>
+<pre>
+>304.tiled_infer_normalized_512x512.bat
+</pre>
+<b>Input 4K images (4k_mini_test) </b><br>
+<img src="./asset/4k_mini_test.png" width="1024" height="auto"><br>
+<br>
+
+<b>Output 4K Tiled-inferred (4k_mini_test_output_normalized_512x512)</b><br>
+<img src="./asset/4k_mini_test_output_normalized_512x512.png" width="1024" height="auto"><br>
 
 <h3>
 References

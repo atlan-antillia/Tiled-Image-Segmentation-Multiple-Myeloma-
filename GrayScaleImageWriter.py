@@ -20,6 +20,7 @@
 import os
 import cv2
 import traceback
+import numpy as np
 
 from PIL import Image
 
@@ -68,7 +69,12 @@ class GrayScaleImageWriter:
     print("== resized to {}".format(resized))
     image = image.resize(resized)
     image.save(image_filepath)
+    
     print("=== Saved {}". format(image_filepath))
+    
+    image = image.convert("RGB")
+
+    return np.array(image)
 
     
 if __name__ == "__main__":
