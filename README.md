@@ -1,5 +1,5 @@
 <h2>
-Tiled-Image-Segmentation-Multiple-Myeloma (Updated: 2023/06/30)
+Tiled-Image-Segmentation-Multiple-Myeloma (Updated: 2023/07/03)
 </h2>
 This is an experimental project to detect <b>Multiple-Myeloma</b> from some pieces of tiled-images created from a large 4K image,
 by using our <a href="https://github.com/atlan-antillia/Tensorflow-Slightly-Flexible-UNet">
@@ -54,6 +54,7 @@ https://www.frontiersin.org/articles/10.3389/fnins.2020.00065/full
 <li>2023/06/22 Modified TensorflowUNet.py to copy a configuration file to a model saving directory.</li>
 <li>2023/06/22 Retrained TensorflowUNet model by using two type of model sizes, 256x256 and 512x512.</li>
 <li>2023/06/30 Added BatchNormalization flag to [model] section of config file to test adverse effects to tiled-image-segmentation .</li>
+<li>2023/07/03 Added Overlapped-Tiled-Image-Segmentation section.</li>
 
 </ul>
 
@@ -600,6 +601,49 @@ Please run the following tiled_infer bat file.<br>
 
 <b>Output 4K Tiled-inferred (4k_mini_test_output_normalized_512x512)</b><br>
 <img src="./asset/4k_mini_test_output_normalized_512x512.png" width="1024" height="auto"><br>
+
+
+<!-- -->
+<h2>
+9 Overlapped Tiled Image Segmentation 
+</h2>
+We have modified <b>infer_tiles</b> methond in <a href="./TensorflowUNet.py">TensorflowUNet</a></b> class to support
+<b> Overlapped Tiled Image Segmentation</b>.
+We have also added <b>overlapping</b> property to [tiledinfer] section in  <a href="./projects/MultipleMyeloma/train_eval_infer_normalized_512x512.config">train_eval_infer_normalized_512x512.config</a> file.<br> 
+<pre>
+; train_eval_infer_normalized_512x512.config
+[tiledinfer]
+;Please specify 0 if you don't need any overlapping.
+overlapping = 64
+</pre>
+, and modified <b>threshold</b> in [mask] section.<br>
+<pre>
+[mask]
+threshold  = 128
+</pre>
+
+Please move to <b>./projects/MultipleMyeloma/</b>, and run the following train bat file.
+<pre>
+>301.train_normalized_512x512.bat
+</pre>
+, by which TensorflowUNet Model with BatchNormalization will be created.<br>
+
+Please run the following tiled_infer bat file.<br>
+<pre>
+>304.tiled_infer_normalized_512x512.bat
+</pre>
+<b>Input 4K images (4k_mini_test) </b><br>
+<img src="./asset/4k_mini_test.png" width="1024" height="auto"><br>
+<br>
+
+<b>Overlapped-Tiled-Image-Segmentation:Output 4K Tiled-inferred (4k_mini_test_output_normalized_overlapped_512x512)</b><br>
+
+<img src="./asset/4k_mini_test_output_normalized_overlapped_512x512.png" width="1024" height="auto"><br>
+<br>
+Please see also:<br>
+<a href="https://github.com/sarah-antillia/TensorflowMultiResUNet-Segmentation-MultipleMyeloma">TensorflowMultiResUNet-Segmentation-MultipleMyeloma</a>
+
+<br>
 
 <h3>
 References
