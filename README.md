@@ -621,6 +621,7 @@ overlapping = 64
 [mask]
 threshold  = 128
 </pre>
+This is a threshold to binarize a mask image, and will affect to <b>BatchNormalization</b>.<br>
 
 Please move to <b>./projects/MultipleMyeloma/</b>, and run the following train bat file.
 <pre>
