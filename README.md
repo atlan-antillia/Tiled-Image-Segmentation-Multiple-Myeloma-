@@ -364,7 +364,7 @@ output_dir = "./4k_tiled_mini_test_output"
 The TensorflowUNetTiledInfer.py script performs the following processings for each 4K image file.<br>
 <pre>
 1 Read a 4K image file in images_dir folder.
-2 Split the image into multile tiles by image size of Model.
+2 Split the image into multiple tiles by image size of Model.
 3 Infer for all tiled images.
 4 Merge all inferred mask,
 </pre>
@@ -434,7 +434,7 @@ For example, 4K image file in 4k_mini_test will be split into a lot of pieces of
 </h2>
 How to improve segmentation accuracy of our Tiled-Image-Segmentation Model?<br>
 At least, it is much better to increase the image size of our UNet Model from 256x256 to 512x512.
-We only have to chanage the configuration file <b>train_eval_infer.config</b> as shown below, and retrain that UNetModel.<br>
+We only have to change the configuration file <b>train_eval_infer.config</b> as shown below, and retrain that UNetModel.<br>
 <pre>
 ; train_eval_infer_512x512.config
 [model]
@@ -534,7 +534,7 @@ TCIA_SegPC_dataset
 <img src="./asset/non_tiled_mini_test_output.png" width="1024" height="auto"><br><br>
 <br>
 <!--
-<b>Detailed images comarison:</b><br>
+<b>Detailed images comparison:</b><br>
 <table>
 <tr><td>mini_test/405.jpg</td><td>Inferred_image</td></tr>
 <tr>
@@ -576,7 +576,7 @@ TCIA_SegPC_dataset
 8 BatchNormalization Effects on Tiled-Image-Segmentation 
 </h2>
 The current TensorflowUNet Model has no BatchNormalization layers in Encoder and Decoder blocks.
-However, in order to test effects of BatchNormalization, we haved added optional parameter 
+However, in order to test effects of BatchNormalization, we have added optional parameter 
 in model section as shown below:<br>
 <pre>
 ; train_eval_infer_normalized_512x512.config
